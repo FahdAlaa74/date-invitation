@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Will You Go Out With Me?</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
+:root{--bg:#f6efed;--paper:#fffdf9;--ink:#252323;--red:#d75b55;--green:#d8ead8;--green2:#b9dbbd;--muted:#74706d}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"DM Sans",sans-serif;color:var(--ink)}
+body{background:radial-gradient(circle at 20% 10%,#fff 0 10%,transparent 40%),linear-gradient(135deg,#f6eeec,#efe6e4 55%,#f8f1ef);overflow-x:hidden}
+body:before,body:after{content:"";position:fixed;border-radius:50%;filter:blur(1px);opacity:.35;pointer-events:none}
+body:before{width:300px;height:300px;background:#ead4cf;left:-150px;top:35%}body:after{width:260px;height:260px;background:#dcebdc;right:-130px;bottom:8%}
+.shell{width:min(760px,94vw);margin:24px auto;padding:0 0 34px}
+.brand{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border:1px solid #d8cfcc;border-radius:999px;background:#fff9;letter-spacing:.12em;font-size:11px;font-weight:700;color:#a35d58;margin:4px auto 14px;position:relative;left:50%;transform:translateX(-50%)}
+.brand b{font-size:14px}.card{position:relative;background:rgba(255,253,249,.93);border-radius:34px;padding:50px 6.5% 58px;box-shadow:0 28px 70px rgba(78,55,50,.12);overflow:hidden;min-height:690px}
+.screen{display:none;min-height:580px;align-items:center;justify-content:center}.screen.active{display:flex}.content{width:100%;text-align:center}
+.eyebrow{display:inline-block;border:1px solid #cfc8c5;border-radius:999px;padding:10px 18px;font-size:11px;font-weight:700;letter-spacing:.17em;color:#6e6a67;text-transform:uppercase;margin-bottom:22px}
+h1,h2{font-family:"Playfair Display",serif;font-weight:500;letter-spacing:-.045em;margin:0 auto}
+h1{font-size:clamp(48px,9vw,82px);line-height:.98;max-width:640px}h2{font-size:clamp(43px,8vw,70px);line-height:1.02;max-width:650px}
+em{color:var(--red);font-style:italic}.sub{font-size:18px;color:#7b7672;margin:24px 0 30px}
+.flower{width:150px;height:145px;margin:18px auto 28px;position:relative}
+.flower:before{content:"";position:absolute;width:18px;height:105px;background:#91aa84;border-radius:100% 0 100% 0;left:68px;top:35px;transform:rotate(12deg)}
+.petal{position:absolute;width:70px;height:105px;background:rgba(215,145,133,.27);border:1px solid rgba(184,108,98,.35);border-radius:70% 25% 70% 25%;left:40px;top:10px;transform-origin:bottom center}
+.p1{transform:rotate(0)}.p2{transform:rotate(72deg)}.p3{transform:rotate(144deg)}.p4{transform:rotate(216deg)}.p5{transform:rotate(288deg)}
+.stem{position:absolute;width:3px;height:105px;background:#7e9875;left:74px;top:36px;transform:rotate(8deg);z-index:2}
+.buttons{display:flex;justify-content:center;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{border:0;border-radius:18px;padding:18px 30px;font:700 16px "DM Sans";cursor:pointer;transition:.2s;min-width:180px}
+.yes,.next{background:#b9dfba}.yes:hover,.next:hover{background:#a9d4ac;transform:translateY(-2px)}
+.no{background:#fff;border:1px solid #ddd5d1;color:#777;min-width:80px;font-size:12px;padding:12px 15px;position:relative}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:16px;text-align:left;margin:28px 0 28px}
+label{display:block;font-size:12px;font-weight:700;letter-spacing:.12em;color:#66615e;margin:0 0 8px 4px}
+input{width:100%;border:1px solid #d8d2cf;background:#fff;border-radius:18px;padding:18px;font:500 17px "DM Sans";outline:none;color:#333}
+input:focus{border-color:#b8aaa6;box-shadow:0 0 0 4px #e8dfdb}
+.plan-title{font-weight:800;letter-spacing:.12em;margin:12px 0 16px;color:#66615e}
+.plan{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;max-width:610px;margin:0 auto 30px}
+.plan button{border:1px solid #bfc9bf;background:linear-gradient(#edf6ed,#dcebdc);border-radius:999px;padding:13px 20px;font:600 15px "DM Sans";color:#344034;cursor:pointer;transition:.2s}
+.plan button:hover{transform:translateY(-2px)}.plan button.selected{background:#df5c51;border-color:#df5c51;color:#fff;box-shadow:0 8px 18px #df5c5130}
+.next{display:block;margin:0 auto;width:min(390px,100%);border:0;border-radius:18px;padding:19px;font-size:17px}
+.letter{max-width:560px;margin:25px auto;background:#fff;border:1px solid #e4dcd8;border-radius:22px;padding:28px;text-align:left;box-shadow:0 14px 32px #5d4b4320}
+.letter .dear{font-family:"Playfair Display";font-size:29px}.letter p{color:#6f6965;line-height:1.75}
+.summary{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:22px}.tag{padding:9px 13px;border-radius:999px;background:#e9f2e8;font-size:13px}
+.footer{text-align:center;color:#9a918d;font-size:11px;margin-top:15px}
+.hidden{display:none!important}
+@media(max-width:600px){.shell{width:100%;margin:0}.brand{margin-top:15px}.card{border-radius:28px;min-height:calc(100vh - 90px);padding:38px 20px}.screen{min-height:650px}.fields{grid-template-columns:1fr}.btn{width:100%}.no{width:auto}.flower{transform:scale(.85);margin-top:5px}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="brand">♡ <span>ONE TINY QUESTION</span></div>
+  <main class="card">
+
+    <section class="screen active" id="s1">
+      <div class="content">
+        <div class="eyebrow">A tiny ask</div>
+        <h1>Will you go <em>out</em> with me?</h1>
+        <div class="sub">So shy.</div>
+        <div class="flower"><i class="petal p1"></i><i class="petal p2"></i><i class="petal p3"></i><i class="petal p4"></i><i class="petal p5"></i><i class="stem"></i></div>
+        <div class="buttons">
+          <button class="btn yes" onclick="show(2)">YES</button>
+          <button class="btn no" id="no">no</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="s2">
+      <div class="content">
+        <div class="eyebrow">Let's make it official</div>
+        <h2>Pick the <em>day,</em><br><em>time</em> &amp; plan</h2>
+        <div class="fields">
+          <div><label>WHICH DAY?</label><input id="date" type="date"></div>
+          <div><label>WHAT TIME?</label><input id="time" type="time"></div>
+        </div>
+        <div class="plan-title">THE PLAN</div>
+        <div class="plan">
+          <button onclick="pick(this,'☕ Coffee')">☕ Coffee</button>
+          <button onclick="pick(this,'🎬 A movie')">🎬 A movie</button>
+          <button onclick="pick(this,'🍝 Dinner')">🍝 Dinner</button>
+          <button onclick="pick(this,'🌳 Walk in the park')">🌳 Walk in the park</button>
+          <button onclick="pick(this,'🍸 Drinks')">🍸 Drinks</button>
+          <button onclick="pick(this,'🎁 Surprise me')">🎁 Surprise me</button>
+        </div>
+        <button class="next" onclick="seal()">Seal it with a letter <span>♥</span></button>
+      </div>
+    </section>
+
+    <section class="screen" id="s3">
+      <div class="content">
+        <div class="eyebrow">One last thing</div>
+        <h2>Make it <em>personal.</em></h2>
+        <div class="letter">
+          <div class="dear">Dear you,</div>
+          <p id="preview">I was hoping you'd say yes. Let's make this a little memory worth keeping.</p>
+          <p><input id="message" placeholder="Write your own little note..."></p>
+        </div>
+        <div class="summary"><span class="tag" id="t1">A date</span><span class="tag" id="t2">Soon</span><span class="tag" id="t3">Somewhere nice</span></div>
+        <button class="next" onclick="finish()">Send the invitation 💌</button>
+        <form id="mailForm" action="https://formsubmit.co/fahdsonbl123@gmail.com" method="POST" style="display:none">
+          <input type="hidden" name="_subject" value="❤️ New Date Invitation Response">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="plan" id="mailPlan">
+          <input type="hidden" name="date" id="mailDate">
+          <input type="hidden" name="time" id="mailTime">
+          <input type="hidden" name="message" id="mailMessage">
+        </form>
+      </div>
+    </section>
+
+    <section class="screen" id="s4">
+      <div class="content">
+        <div class="eyebrow">It's official</div>
+        <h2>See you <em>there.</em></h2>
+        <div class="letter">
+          <div class="dear">Dear you,</div>
+          <p id="finalText">I was hoping you'd say yes. Let's make this a little memory worth keeping.</p>
+          <p style="margin-top:20px">♥</p>
+        </div>
+        <div class="summary"><span class="tag" id="f1"></span><span class="tag" id="f2"></span><span class="tag" id="f3"></span></div>
+        <div class="buttons"><button class="btn yes" onclick="sendEmail()">Send response ♥</button><button class="btn no" onclick="location.reload()">Start over</button></div>
+        <p id="sent" class="hidden" style="margin-top:18px;color:#6f6965">Sent successfully — check your inbox ♥</p>
+      </div>
+    </section>
+  </main>
+  <div class="footer">made with a little courage &amp; a lot of heart</div>
+</div>
+
+<script>
+let selected='';
+const qs=s=>document.querySelector(s);
+function show(n){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));qs('#s'+n).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+function pick(el,v){document.querySelectorAll('.plan button').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');selected=v}
+function seal(){
+ if(!selected){alert('Pick a plan first ♥');return}
+ const d=qs('#date').value,t=qs('#time').value;
+ qs('#t1').textContent=selected;qs('#t2').textContent=d?new Date(d+'T12:00').toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}):'Date TBD';qs('#t3').textContent=t||'Time TBD';show(3)
+}
+function finish(){
+ const m=qs('#message').value.trim();
+ qs('#finalText').textContent=m||'I was hoping you’d say yes. Let’s make this a little memory worth keeping.';
+ qs('#f1').textContent=selected;qs('#f2').textContent=qs('#t2').textContent;qs('#f3').textContent=qs('#t3').textContent;
+ qs('#mailPlan').value=selected;
+ qs('#mailDate').value=qs('#t2').textContent;
+ qs('#mailTime').value=qs('#t3').textContent;
+ qs('#mailMessage').value=m||'I was hoping you’d say yes. Let’s make this a little memory worth keeping.';
+ show(4)
+}
+async function sendEmail(){
+  const btn = document.querySelector('#s4 .yes');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+  const plan = selected || 'Date';
+  const date = qs('#t2').textContent;
+  const time = qs('#t3').textContent;
+  const msg = qs('#finalText').textContent;
+  const fullMessage = `Plan: ${plan}\nDate: ${date}\nTime: ${time}\nMessage: ${msg}`;
+
+  try {
+    await sendChoice('YES ❤️', fullMessage);
+    qs('#sent').textContent = 'Sent successfully — check your inbox ♥';
+    qs('#sent').classList.remove('hidden');
+    if (btn) btn.textContent = 'Sent ♥';
+  } catch (err) {
+    console.error(err);
+    qs('#sent').textContent = 'Could not send. ' + (err && err.message ? err.message : 'Please try again.');
+    qs('#sent').classList.remove('hidden');
+    if (btn) { btn.disabled = false; btn.textContent = 'Send response ♥'; }
+  }
+}
+const no=qs('#no');
+const pleasings=[
+  'please 🥺',
+  'pleaseee',
+  'are you sure?',
+  'think again 🥹',
+  'pretty please?',
+  'just one date?',
+  'come onnn ❤️',
+  'don’t do this 😭',
+  'give me a chance?',
+  'one little yes?'
+];
+let pleaseIndex=0;
+let noEmailSent=false;
+function plead(e){
+  e && e.preventDefault();
+  no.textContent=pleasings[Math.min(pleaseIndex,pleasings.length-1)];
+  pleaseIndex++;
+  no.style.transform=`translate(${Math.random()*150-75}px,${Math.random()*80-40}px)`;
+  if(pleaseIndex>=pleasings.length){
+    no.textContent='okay... 🥺';
+    no.style.transform='translate(0,0)';
+  }
+}
+no.addEventListener('mouseenter',plead);
+no.addEventListener('click',plead);
+no.addEventListener('click',()=>{
+  no.style.transform=`translate(${Math.random()*220-110}px,${Math.random()*110-55}px)`;
+  if(!noEmailSent){
+    noEmailSent=true;
+    sendChoice('NO 💔', 'They clicked No on the date invitation. The site then showed the pleading messages.').catch(console.error);
+  }
+});
+</script>
+
+<script>
+/*
+  EmailJS setup
+  Uses EmailJS's browser-safe REST endpoint, so the site does not depend
+  on the EmailJS CDN SDK being loaded.
+*/
+(function () {
+  const EMAILJS_PUBLIC_KEY = "WljICgPrtWKliB8L";
+  const EMAILJS_SERVICE_ID = "service_mxol2vw";
+  const EMAILJS_TEMPLATE_ID = "template_zi1oe5i";
+  const RECIPIENT_EMAIL = "fahdsonbl123@gmail.com";
+
+  async function sendChoice(choice, message) {
+    const payload = {
+      service_id: EMAILJS_SERVICE_ID,
+      template_id: EMAILJS_TEMPLATE_ID,
+      user_id: EMAILJS_PUBLIC_KEY,
+      template_params: {
+        to_email: RECIPIENT_EMAIL,
+        choice: choice,
+        message: message || ("Someone selected " + choice + " on your date invitation."),
+        time: new Date().toLocaleString()
+      }
+    };
+
+    const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload)
+    });
+
+    const text = await response.text();
+
+    if (!response.ok) {
+      throw new Error("EmailJS " + response.status + ": " + text);
+    }
+
+    return text;
+  }
+
+  window.sendChoice = sendChoice;
+})();
+</script>
+
+</body>
+</html>
